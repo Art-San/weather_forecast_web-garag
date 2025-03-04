@@ -1,3 +1,5 @@
+import { switchTheme } from './src/components/switchTheme.js'
+
 export function initApp() {
-  console.log(12, 'test')
+  switchTheme()
 }
