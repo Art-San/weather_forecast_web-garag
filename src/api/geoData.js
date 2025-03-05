@@ -4,6 +4,8 @@ import { showError } from '../components/error.js'
 import { isCyrillic } from '../helpers/checkCyrillic.js'
 import { replaceAbbreviation } from '../helpers/cityAbbreviation.js'
 import { saveCityToLocalStorage } from '../helpers/saveCityToLocalStorage.js'
+import { getWeather, getForecast } from './getWeatherAndForecast.js'
+import { renderCurrentWeather } from '../components/currentWeather.js'
 
 export const getGeoData = async () => {
   let city = cityInput.value.trim()
@@ -18,7 +20,7 @@ export const getGeoData = async () => {
   }
 
   city = replaceAbbreviation(city)
-  console.log(123, city)
+
   try {
     const geoUrl = `${baseUrl}/geo/1.0/direct`
     const queryParams = new URLSearchParams({
@@ -35,10 +37,13 @@ export const getGeoData = async () => {
     }
 
     const { lat, lon } = geoData[0]
-    console.log(456, lat, lon)
+    console.log(123, lat, lon)
     saveCityToLocalStorage(city)
 
-    // http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key}
+    const weatherData = await getWeather(lat, lon)
+    const forecastData = await getForecast(lat, lon)
+
+    renderCurrentWeather(weatherData, city)
   } catch (error) {
     console.error(error.message)
     showError('Данные не получены')
