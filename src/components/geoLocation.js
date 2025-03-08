@@ -11,7 +11,7 @@ export function geoLocation() {
       const { latitude, longitude } = await getBrowserGeolocation()
 
       const locationName = await geoLocationName(latitude, longitude)
-
+      console.log(23, locationName)
       // await fetchWeatherByCoords(latitude, longitude, locationName)
     } catch (error) {
       console.error('Ошибка при получении геолокации: ', error.message)
